@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
-const GridSize = 3 // can be dynamic but according to the task should be 30
+const GridSize = 30 // can be dynamic but according to the task should be 30
 const FleasCount = GridSize * GridSize
 
 type Grid struct {
@@ -26,7 +27,7 @@ func NewGrid() *Grid {
 	return g
 }
 
-// Iterate over grid matrix
+// Iterate over grid matrix and run custom func
 func (g *Grid) walk(f func(int, int)) {
 	for i := 0; i < GridSize; i++ {
 		for j := 0; j < GridSize; j++ {
@@ -37,20 +38,31 @@ func (g *Grid) walk(f func(int, int)) {
 
 // Print matrix with numbers of fleas inside each cell
 func (g *Grid) Print() {
-	fmt.Println("=============")
 	g.walk(func(i int, j int) {
 		fmt.Print(len(g.Matrix[i][j].Fleas))
 		if j == GridSize-1 {
 			fmt.Println()
 		}
 	})
+	fmt.Println(strings.Repeat("=", GridSize))
+}
+
+func (g *Grid) GetEmptyCellsCount() int {
+	emptyCount := 0
+	g.walk(func(i int, j int) {
+		if len(g.Matrix[i][j].Fleas) == 0 {
+			emptyCount++
+		}
+	})
+	return emptyCount
 }
 
 // Simulates singe bell ring
-func (grid *Grid) RingBell(n int) {
+func (g *Grid) RingBell(n int) {
 	for i := 0; i < n; i++ {
-		for _, f := range grid.Fleas {
+		for _, f := range g.Fleas {
 			f.Jump()
 		}
+		fmt.Printf("Empty cells: %d\n", g.GetEmptyCellsCount())
 	}
 }
