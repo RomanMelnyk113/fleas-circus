@@ -37,7 +37,8 @@ func (g *Grid) walk(f func(int, int)) {
 }
 
 // Print matrix with numbers of fleas inside each cell
-func (g *Grid) Print() {
+func (g *Grid) Print(msg string) {
+	fmt.Println(msg)
 	g.walk(func(i int, j int) {
 		fmt.Print(len(g.Matrix[i][j].Fleas))
 		if j == GridSize-1 {
@@ -57,12 +58,11 @@ func (g *Grid) GetEmptyCellsCount() int {
 	return emptyCount
 }
 
-// Simulates singe bell ring
+// Simulates a bell ring N times
 func (g *Grid) RingBell(n int) {
 	for i := 0; i < n; i++ {
 		for _, f := range g.Fleas {
 			f.Jump()
 		}
-		fmt.Printf("Empty cells: %d\n", g.GetEmptyCellsCount())
 	}
 }
