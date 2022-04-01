@@ -49,8 +49,8 @@ NOTE: after simulation was run `debug.log` file is created with resources usage 
 
 ### Performance optimization
 According to profiler most expensive function call is function related to rand numbers (see profiler graph below)
-![App Screenshot](https://ibb.co/hK5zKDN)
+[![profile-before.png](https://i.postimg.cc/MG6RBZ8y/profile-before.png)](https://postimg.cc/5Xr6dVy0)
 
 This is profiler graph after randomizer optimization
-![App Screenshot](https://ibb.co/Bq93Bpq)
+[![profile-after.png](https://i.postimg.cc/hG2ywP8r/profile-after.png)](https://postimg.cc/Z9yxvmMB)
 
