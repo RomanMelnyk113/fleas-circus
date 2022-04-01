@@ -38,10 +38,14 @@ Run multple simulations in parallel
 Run `./fleas --help` to see details:
 ```
 Usage of ./fleas:
+  -display-grid
+        Determines if grid matrix should be displayed in termial (Supported with simulation in sequence only).
   -parallel
-        Determines if simulation should run in parallel
+        Determines if simulation should run in parallel.
+  -profile
+        Determines if simulation should run with profiler enabled.
   -times int
-        Number of times to run simulation (default 1)
+        Number of times to run simulation. (default 1)
 ```
 
 NOTE: after simulation was run `debug.log` file is created with resources usage details
