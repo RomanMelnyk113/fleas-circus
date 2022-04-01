@@ -34,3 +34,14 @@ Run multple simulations in parallel
 ```sh
 ./fleas --times=10 --parallel=true
 ```
+
+Run `./fleas --help` to see details:
+```
+Usage of ./fleas:
+  -parallel
+        Determines if simulation should run in parallel
+  -times int
+        Number of times to run simulation (default 1)
+```
+
+NOTE: after simulation was run `debug.log` file is created with resources usage details
