@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-type Direction int
+type Direction int16
 
 const (
 	LEFT  Direction = 0
@@ -14,12 +14,12 @@ const (
 )
 
 type Flea struct {
-	ID   int
+	ID   int16
 	Cell *Cell
 }
 
-// Returns, as an int, a non-negative pseudo-random number in [0,3].
-func randNum(n int) int {
+// Returns, as an int16, a non-negative pseudo-random number in [0,3].
+func randNum(n int16) int16 {
 	if n > 4 {
 		panic("Support only range from 1 to 4")
 	}
@@ -27,13 +27,13 @@ func randNum(n int) int {
 	timestamp := time.Now().UnixNano()
 
 	// get last digit from timestamp as rand number
-	randNum := int(timestamp % 10)
+	randNum := int16(timestamp % 10)
 
 	// calculate step to check (e.g. n=4 then step = 2 (10/4))
 	// so loop below will be running within 4 ranges: [0,2], [2,4], [4,6], [6,8]
-	step := 10 / n
-	border := 0
-	for i := 0; i < n; i++ {
+	var step int16 = int16(10 / n)
+	var border, i int16 = 0, 0
+	for i = 0; i < n; i++ {
 		if randNum >= border && randNum <= step+border {
 			return i
 		}
@@ -49,7 +49,7 @@ func (flea *Flea) move(allowedDirection []Direction) {
 	var nCell *Cell
 
 	// randomly select direction to jump based on allowedDirection
-	i := randNum(len(allowedDirection))
+	i := randNum(int16(len(allowedDirection)))
 	direction := allowedDirection[i]
 
 	switch direction {

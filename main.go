@@ -13,10 +13,10 @@ import (
 
 const RoundTo float64 = 1000000 // round to 6 decimals
 
-func simulation(n int) {
+func simulation(n int16) {
 	fmt.Println("Running simulation...")
-	totalCount := 0
-	for i := 0; i < n; i++ {
+	var totalCount, i int16 = 0, 0
+	for i = 0; i < n; i++ {
 		grid := NewGrid()
 		grid.RingBell(50)
 		totalCount += grid.GetEmptyCellsCount()
@@ -26,14 +26,14 @@ func simulation(n int) {
 	fmt.Printf("Empty cells count for current simulation (%d times) - %f\n", n, avgCount)
 }
 
-func parallelSimulation(n int) {
+func parallelSimulation(n int16) {
 	var wg sync.WaitGroup
-	totalCount := 0
+	var totalCount, i int16 = 0, 0
 
 	// channel to store individual empty cell counts of each simulation
-	counts := make(chan int, n)
+	counts := make(chan int16, n)
 
-	for i := 0; i < n; i++ {
+	for i = 0; i < n; i++ {
 		wg.Add(1)
 		go func() {
 			grid := NewGrid()
@@ -89,7 +89,7 @@ func main() {
 	pprof.StartCPUProfile(prof)
 	defer pprof.StopCPUProfile()
 
-	var f func(int)
+	var f func(int16)
 
 	if *is_parallel {
 		f = parallelSimulation
@@ -98,6 +98,6 @@ func main() {
 	}
 
 	PrintDebugInfo(func() {
-		f(*times)
+		f(int16(*times))
 	})
 }

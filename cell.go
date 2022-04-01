@@ -1,18 +1,18 @@
 package main
 
 type Cell struct {
-	Fleas  map[int]*Flea
+	Fleas  map[int16]*Flea
 	Left   *Cell
 	Right  *Cell
 	Top    *Cell
 	Bottom *Cell
-	X      int
-	Y      int
+	X      int16
+	Y      int16
 }
 
 // Initialize new cell with 1 flea inside
-func NewCell(x int, y int, grid *Grid) (*Cell, *Flea) {
-	cell := &Cell{X: x, Y: y, Fleas: make(map[int]*Flea)}
+func NewCell(x int16, y int16, grid *Grid) (*Cell, *Flea) {
+	cell := &Cell{X: x, Y: y, Fleas: make(map[int16]*Flea)}
 	fleaID := x*GridSize + y // get unique ID
 	flea := &Flea{ID: fleaID, Cell: cell}
 	cell.Fleas[flea.ID] = flea

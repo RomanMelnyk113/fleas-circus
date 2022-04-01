@@ -10,7 +10,7 @@ Implementation plan
  - Implement single simulation
  - Run multiple simulations and calculate average
  - Run simulations in parallel
- - Optimize for better speed, less memory allocations (Not done yet)
+ - Optimize for better speed, less memory allocations
 
 ## Usage
 
@@ -51,6 +51,6 @@ NOTE: after simulation was run `debug.log` file is created with resources usage 
 According to profiler most expensive function call is function related to rand numbers (see profiler graph below)
 ![App Screenshot](https://ibb.co/hK5zKDN)
 
-This is profiler graph after optimization
-![App Screenshot](https://ibb.co/hK5zKDN)
+This is profiler graph after randomizer optimization
+![App Screenshot](https://ibb.co/Bq93Bpq)
 

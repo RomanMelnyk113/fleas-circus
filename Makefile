@@ -1,5 +1,8 @@
-profile: ## Run pprof profiler
+profiler-web: ## Run pprof web profiler
 	go tool pprof -http=":6060" fleas cpu.pprof
+
+profiler-cli: ## Run pprof cli profiler
+	go tool pprof fleas cpu.pprof
 #
 #
 # Absolutely awesome: http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
