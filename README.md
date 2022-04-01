@@ -45,3 +45,12 @@ Usage of ./fleas:
 ```
 
 NOTE: after simulation was run `debug.log` file is created with resources usage details
+
+
+### Performance optimization
+According to profiler most expensive function call is function related to rand numbers (see profiler graph below)
+![App Screenshot](https://ibb.co/hK5zKDN)
+
+This is profiler graph after optimization
+![App Screenshot](https://ibb.co/hK5zKDN)
+

@@ -7,6 +7,7 @@ import (
 	"math"
 	_ "net/http/pprof"
 	"os"
+	"runtime/pprof"
 	"sync"
 )
 
@@ -80,6 +81,13 @@ func main() {
 
 	logger := initLogs()
 	defer logger.Close()
+
+	prof, perr := os.Create("cpu.pprof")
+	if perr != nil {
+		log.Fatal(perr)
+	}
+	pprof.StartCPUProfile(prof)
+	defer pprof.StopCPUProfile()
 
 	var f func(int)
 
