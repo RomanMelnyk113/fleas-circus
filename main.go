@@ -13,7 +13,7 @@ import (
 const RoundTo float64 = 1000000 // round to 6 decimals
 
 func simulation(n int) {
-	fmt.Println("Running multiple simulation...")
+	fmt.Println("Running simulation...")
 	totalCount := 0
 	for i := 0; i < n; i++ {
 		grid := NewGrid()
@@ -22,7 +22,7 @@ func simulation(n int) {
 	}
 	avg := float64(totalCount) / float64(n)
 	avgCount := math.Round(avg*RoundTo) / RoundTo
-	fmt.Printf("Empty cells count for multiple simulation (%d times) - %f\n", n, avgCount)
+	fmt.Printf("Empty cells count for current simulation (%d times) - %f\n", n, avgCount)
 }
 
 func parallelSimulation(n int) {
@@ -55,7 +55,7 @@ func parallelSimulation(n int) {
 	}
 	avg := float64(totalCount) / float64(n)
 	avgCount := math.Round(avg*RoundTo) / RoundTo
-	fmt.Printf("Empty cells count for multiple simulation (%d times) - %f\n", n, avgCount)
+	fmt.Printf("Empty cells count for parallel simulation (%d times) - %f\n", n, avgCount)
 }
 
 func initLogs() *os.File {
