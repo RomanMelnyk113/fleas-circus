@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"math"
@@ -11,14 +12,7 @@ import (
 
 const RoundTo float64 = 1000000 // round to 6 decimals
 
-func singeSimulation() {
-	fmt.Println("Running single simulation...")
-	grid := NewGrid()
-	grid.RingBell(50)
-	fmt.Printf("Empty cells count is - %d\n", grid.GetEmptyCellsCount())
-}
-
-func multipleSimulation(n int) {
+func simulation(n int) {
 	fmt.Println("Running multiple simulation...")
 	totalCount := 0
 	for i := 0; i < n; i++ {
@@ -28,11 +22,10 @@ func multipleSimulation(n int) {
 	}
 	avg := float64(totalCount) / float64(n)
 	avgCount := math.Round(avg*RoundTo) / RoundTo
-	fmt.Printf("Total count: %d\n", totalCount)
 	fmt.Printf("Empty cells count for multiple simulation (%d times) - %f\n", n, avgCount)
 }
 
-func parallelMultipleSimulation(n int) {
+func parallelSimulation(n int) {
 	var wg sync.WaitGroup
 	totalCount := 0
 
@@ -72,24 +65,31 @@ func initLogs() *os.File {
 		log.Panic(err)
 	}
 
-	// Set log out put and enjoy :)
 	log.SetOutput(logFile)
 
-	// optional: log date-time, filename, and line number
 	log.SetFlags(log.Lshortfile | log.LstdFlags)
 	return logFile
 }
 
 func main() {
+
+	times := flag.Int("times", 1, "Number of times to run simulation")
+	is_parallel := flag.Bool("parallel", false, "Determines if simulation should run in parallel")
+
+	flag.Parse()
+
 	logger := initLogs()
 	defer logger.Close()
-	//getExecTime(func() {
-	//singeSimulation()
-	//})
-	//getExecTime(func() {
-	//multipleSimulation(30)
-	//})
+
+	var f func(int)
+
+	if *is_parallel {
+		f = parallelSimulation
+	} else {
+		f = simulation
+	}
+
 	PrintDebugInfo(func() {
-		parallelMultipleSimulation(30)
+		f(*times)
 	})
 }
