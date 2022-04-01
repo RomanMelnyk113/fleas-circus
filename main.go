@@ -28,8 +28,8 @@ func simulation(n int16) {
 
 func parallelSimulation(n int16) {
 	var wg sync.WaitGroup
-	var totalCount, i int16 = 0, 0
-
+	var totalCount int = 0
+	var i int16
 	// channel to store individual empty cell counts of each simulation
 	counts := make(chan int16, n)
 
@@ -52,11 +52,12 @@ func parallelSimulation(n int16) {
 	// iterate within already received empty cell count for each simulation
 	// and calculate total empty cells count
 	for c := range counts {
-		totalCount += c
+		fmt.Println(c)
+		totalCount += int(c)
 	}
 	avg := float64(totalCount) / float64(n)
 	avgCount := math.Round(avg*RoundTo) / RoundTo
-	fmt.Printf("Empty cells count for parallel simulation (%d times) - %f\n", n, avgCount)
+	fmt.Printf("Average empty cells count for parallel simulation (%d times) - %f\n", n, avgCount)
 }
 
 func initLogs() *os.File {
