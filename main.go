@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math"
 	_ "net/http/pprof"
+	"os"
 	"sync"
 )
 
@@ -63,14 +65,31 @@ func parallelMultipleSimulation(n int) {
 	fmt.Printf("Empty cells count for multiple simulation (%d times) - %f\n", n, avgCount)
 }
 
+func initLogs() *os.File {
+	LOG_FILE := "./debug.log"
+	logFile, err := os.OpenFile(LOG_FILE, os.O_APPEND|os.O_RDWR|os.O_CREATE, 0644)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	// Set log out put and enjoy :)
+	log.SetOutput(logFile)
+
+	// optional: log date-time, filename, and line number
+	log.SetFlags(log.Lshortfile | log.LstdFlags)
+	return logFile
+}
+
 func main() {
-	getExecTime(func() {
-		singeSimulation()
-	})
-	getExecTime(func() {
-		multipleSimulation(30)
-	})
-	getExecTime(func() {
+	logger := initLogs()
+	defer logger.Close()
+	//getExecTime(func() {
+	//singeSimulation()
+	//})
+	//getExecTime(func() {
+	//multipleSimulation(30)
+	//})
+	PrintDebugInfo(func() {
 		parallelMultipleSimulation(30)
 	})
 }
