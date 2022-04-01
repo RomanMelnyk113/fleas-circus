@@ -76,18 +76,21 @@ func main() {
 
 	times := flag.Int("times", 1, "Number of times to run simulation")
 	is_parallel := flag.Bool("parallel", false, "Determines if simulation should run in parallel")
+	is_profiler := flag.Bool("profile", false, "Determines if simulation should run with profiler enabled")
 
 	flag.Parse()
 
 	logger := initLogs()
 	defer logger.Close()
 
-	prof, perr := os.Create("cpu.pprof")
-	if perr != nil {
-		log.Fatal(perr)
+	if *is_profiler {
+		prof, perr := os.Create("cpu.pprof")
+		if perr != nil {
+			log.Fatal(perr)
+		}
+		pprof.StartCPUProfile(prof)
+		defer pprof.StopCPUProfile()
 	}
-	pprof.StartCPUProfile(prof)
-	defer pprof.StopCPUProfile()
 
 	var f func(int16)
 
