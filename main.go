@@ -13,13 +13,16 @@ import (
 
 const RoundTo float64 = 1000000 // round to 6 decimals
 
-func simulation(n int16) {
+func simulation(n int16, printGrid bool) {
 	fmt.Println("Running simulation...")
 	var totalCount, i int16 = 0, 0
 	for i = 0; i < n; i++ {
 		grid := NewGrid()
 		grid.RingBell(50)
 		totalCount += grid.GetEmptyCellsCount()
+		if printGrid {
+			grid.Print("")
+		}
 	}
 	avg := float64(totalCount) / float64(n)
 	avgCount := math.Round(avg*RoundTo) / RoundTo
@@ -52,7 +55,6 @@ func parallelSimulation(n int16) {
 	// iterate within already received empty cell count for each simulation
 	// and calculate total empty cells count
 	for c := range counts {
-		fmt.Println(c)
 		totalCount += int(c)
 	}
 	avg := float64(totalCount) / float64(n)
@@ -75,16 +77,18 @@ func initLogs() *os.File {
 
 func main() {
 
-	times := flag.Int("times", 1, "Number of times to run simulation")
-	is_parallel := flag.Bool("parallel", false, "Determines if simulation should run in parallel")
-	is_profiler := flag.Bool("profile", false, "Determines if simulation should run with profiler enabled")
+	times := flag.Int("times", 1, "Number of times to run simulation.")
+	isParallel := flag.Bool("parallel", false, "Determines if simulation should run in parallel.")
+	isProfiler := flag.Bool("profile", false, "Determines if simulation should run with profiler enabled.")
+	isPrintGrid := flag.Bool("display-grid", false,
+		"Determines if grid matrix should be displayed in termial (Supported with simulation in sequence only).")
 
 	flag.Parse()
 
 	logger := initLogs()
 	defer logger.Close()
 
-	if *is_profiler {
+	if *isProfiler {
 		prof, perr := os.Create("cpu.pprof")
 		if perr != nil {
 			log.Fatal(perr)
@@ -93,15 +97,11 @@ func main() {
 		defer pprof.StopCPUProfile()
 	}
 
-	var f func(int16)
-
-	if *is_parallel {
-		f = parallelSimulation
-	} else {
-		f = simulation
-	}
-
 	PrintDebugInfo(func() {
-		f(int16(*times))
+		if *isParallel {
+			parallelSimulation(int16(*times))
+		} else {
+			simulation(int16(*times), *isPrintGrid)
+		}
 	})
 }
